@@ -1,4 +1,5 @@
 import React from 'react';
+import * as XLSX from 'xlsx';
 
 function Intro() {
 
@@ -37,20 +38,20 @@ function Intro() {
         // fileContent = res;
         // })
         // break;
-        // case '.xlsx' || '.xls':
-        // var result = {};
-        // file = new Uint8Array(file);
-        // var workbook = XLSX.read(file, {
-        // type: 'array'
-        // });
-        // workbook.SheetNames.forEach(function (sheetName) {
-        // var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
-        // header: 1
-        // });
-        // if (roa.length) result[sheetName] = roa;
-        // });
-        // filecontent = JSON.stringify(result);
-        // break;
+        case 'xlsx' || 'xls':
+          fileReader.onload = (evt) => {
+            const bstr = evt.target.result;
+            const wb = XLSX.read(bstr, {type:'binary'});
+            /* Get first worksheet */
+            const wsname = wb.SheetNames[0];
+            const ws = wb.Sheets[wsname];
+            /* Convert array of arrays */
+            const data = XLSX.utils.sheet_to_csv(ws, {header:1});
+            /* Update state */
+            console.log("The data in the excel file: \n"+data);
+          }
+          fileReader.readAsBinaryString(file);
+        break;
         case 'txt' || 'csv':
             fileReader.readAsText(file);
         break;
