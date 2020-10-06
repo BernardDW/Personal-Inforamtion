@@ -1,6 +1,6 @@
 This a a personal information detection system.
 
-Frontend: React
-API: NodeJS
-Backend:
-Cloud: AWS
+Frontend: React</br>
+API: NodeJS</br>
+Backend:</br>
+Cloud: AWS</br>
