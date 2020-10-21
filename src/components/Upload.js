@@ -1,32 +1,61 @@
-import React from 'react';
+import React, { Component } from 'react';
+import S3 from 'react-aws-s3';
 
-function Intro() {
+const config = {
+  bucketName: process.env.REACT_APP_BUCKET,
+  region: process.env.REACT_APP_S3_REGION,
+  headers: {'Access-Control-Allow-Origin': '*'},
+  accessKeyId: process.env.REACT_APP_AWSACCESSID,
+  secretAccessKey: process.env.REACT_APP_AWSSECRETKEY,
+}
+const ReactS3Client = new S3(config);
 
-  let fileReader;
+class Intro extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      success : false,
+      url : ""
+    }
+  }
+
+  handleChange = (ev) => {
+    this.setState({success: false, url : ""});
+    
+  }
+  // Perform the upload
+  handleUpload = (ev) => {
+    let file = this.uploadInput.files[0];
+    console.log("Preparing the upload");
+    
+    ReactS3Client
   
-  const handleFileRead = (e) => {
-    const content = fileReader.result;
-    console.log(content)
-    // … do something with the 'content' …
-  };
-  
-  const handleFileChosen = (file) => {
-    fileReader = new FileReader();
-    fileReader.onloadend = handleFileRead;
+    .uploadFile(file, "temp")
+    .then(data => console.log(data))
+    .catch(err => console.error(err))
     
   };
   
-  return <div className='upload-expense'>
-    <h1>Choose file to detect Personal Information</h1>
-    <input
-      type='file'
-      id='file'
-      className='input-file'
-      accept='.csv, .txt, .doc, .docx, .xls, .xlsx, .pdf'
-      onChange={e => handleFileChosen(e.target.files[0])}
-    />
-  </div>;
-
+  
+  render() {
+    const Success_message = () => (
+      <div style={{padding:50}}>
+        <h3 style={{color: 'green'}}>SUCCESSFUL UPLOAD</h3>
+        <a href={this.state.url}>Access the file here</a>
+        <br/>
+      </div>
+    )
+    return (
+      <div className="App">
+        <center>
+          <h1>UPLOAD A FILE</h1>
+          {this.state.success ? <Success_message/> : null}
+          <input onChange={this.handleChange} ref={(ref) => { this.uploadInput = ref; }} type="file"/>
+          <br/>
+          <button onClick={this.handleUpload}>UPLOAD</button>
+        </center>
+      </div>
+    );
+  }
 }
-
 export default Intro;

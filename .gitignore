@@ -11,6 +11,9 @@
 # production
 /build
 
+# aws key
+.env
+
 # misc
 .DS_Store
 .env.local
