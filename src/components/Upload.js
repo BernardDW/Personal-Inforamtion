@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import S3 from 'react-aws-s3';
 
+/* By directly uploading these files to Amazon S3, I can avoid proxying these requests through my application server. 
+This can significantly reduce network traffic and server CPU usage, and enable my application server to handle other requests during busy periods. 
+S3 also is highly available and durable, making it an ideal persistent store for user uploads. */
+
 const config = {
   bucketName: process.env.REACT_APP_BUCKET,
   region: process.env.REACT_APP_S3_REGION,
