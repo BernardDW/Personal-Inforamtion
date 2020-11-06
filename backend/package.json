@@ -1,14 +1,15 @@
 {
-  "name": "lambda",
+  "name": "backendd",
   "version": "1.0.0",
-  "description": "Lambda function for serverless file processing",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Bernard",
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "read-excel-file": "^4.0.7"
+    "mammoth": "^1.4.13",
+    "xlsx": "^0.16.8"
   }
 }
