@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from "axios";
 import S3 from 'react-aws-s3';
 
 /* By directly uploading these files to Amazon S3, I can avoid proxying these requests through my application server. 
@@ -18,25 +19,47 @@ class Intro extends Component {
   constructor(props){
     super(props);
     this.state = {
-      success : false,
-      url : ""
-    }
+      fileToUpload: undefined,
+      uploadSuccess: undefined,
+      error: undefined
+    };
+  }
+  
+  getFileExtension = (filename) => {
+    var ext = /^.+\.([^.]+)$/.exec(filename);
+    return ext == null ? "" : ext[1];
   }
 
   handleChange = (ev) => {
     this.setState({success: false, url : ""});
     
   }
+
   // Perform the upload
   handleUpload = (ev) => {
     let file = this.uploadInput.files[0];
     console.log("Preparing the upload");
     
-    ReactS3Client
-  
-    .uploadFile(file, "temp")
-    .then(data => console.log(data))
-    .catch(err => console.error(err))
+    if(this.getFileExtension(file.name)==="txt"){
+      axios({
+        method: 'get',
+        url: 'https://0nc3lkfsx0.execute-api.us-east-2.amazonaws.com/default/getPreSignedTXT',
+        responseType: 'stream'
+      })
+        .then(function (response) {
+          console.log(response.data)
+        });
+    }else if(this.getFileExtension(file.name)==="xlsx"){
+      axios({
+        method: 'get',
+        url: 'https://sv5xm4lg4l.execute-api.us-east-2.amazonaws.com/default/getPreSignedXLSX',
+        responseType: 'stream'
+      })
+        .then(function (response) {
+          console.log(response.data)
+        });
+    }
+
     
   };
   
