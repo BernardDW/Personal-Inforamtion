@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import {useHistory} from 'react-router-dom';
+
 // import S3 from 'react-aws-s3';
 
 // const config = {
@@ -11,14 +13,15 @@ import axios from "axios";
 // }
 // const ReactS3Client = new S3(config);
 
-class Intro extends Component {
+class Upload extends Component {
   constructor(props){
     super(props);
     this.state = {
-      success: false,
-      doneAnalize: false
+      load: false,
+      fileExt: "asd"
     };
   }
+  
   
   getFileExtension = (filename) => {
     var ext = /^.+\.([^.]+)$/.exec(filename);
@@ -26,22 +29,30 @@ class Intro extends Component {
   }
 
   handleChange = (ev) => {
-    this.setState({success: false, url : ""});
-    
+    this.setState({success: false});
+    let file = this.uploadInput.files[0];
+    let ext = this.getFileExtension(file.name);
+    this.setState({fileExt: ext}, () => {
+      console.log(this.state.fileExt)
+    });
   }
 
   // Perform the upload
   handleUpload = (ev) => {
     let file = this.uploadInput.files[0];
+    
     let link ="";
     let headers = "";
 
-    if (this.getFileExtension(file.name) === "txt"){
+    if (this.state.fileExt === "txt"){
       link = "https://0nc3lkfsx0.execute-api.us-east-2.amazonaws.com/default/getPreSignedTXT";
       headers = "text/plain";
-    }else if(this.getFileExtension(file.name) === "xlsx"){
+    }else if(this.state.fileExt === "xlsx"){
       link = "https://sv5xm4lg4l.execute-api.us-east-2.amazonaws.com/default/getPreSignedXLSX";
       headers = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    }else if(this.state.fileExt === "json"){
+      link = "https://61o0lv1btb.execute-api.us-east-2.amazonaws.com/default/getPresSignedJSON";
+      headers = "application/json";
     }else{
       throw new Error("Invalid file type");
     }
@@ -62,6 +73,7 @@ class Intro extends Component {
       .then(result => {
         console.log("Response from s3")
         this.setState({success: true});
+        this.handleRouting();
       })
       .catch(error => {
         alert("ERROR " + JSON.stringify(error));
@@ -73,35 +85,18 @@ class Intro extends Component {
     
   };
 
-  handleAnalyse = (ev) => {
-    let file = this.uploadInput.files[0];
-    let apiUrl = "https://2imdj98e48.execute-api.us-east-2.amazonaws.com/1/extract?extension=" + this.getFileExtension(file.name);
-
-    axios.get(apiUrl)
-    .then(response => {
-      var personalInfo = response.data;
-      //this.setState({url: url})
-      console.log("PI: \n=================\n" + personalInfo);
+  handleRouting=()=> {
+    this.props.history.push('/analyse', {
+      fileExtension: this.state.fileExt
     })
-    .catch(error => {
-      alert(JSON.stringify(error));
-    })
-  }
-  
+  } 
   
   render() {
-    const Success_message = () => (
-      <div style={{padding:50}}>
-        <h2 style={{color: 'green'}}>SUCCESSFUL UPLOAD</h2>
-        <br/>
-        <button onClick={this.handleAnalyse}>Analyse my file</button>
-      </div>
-    )
     return (
-      <div className="App">
+      <div>
         <center>
           <h1>PERSONAL INFORMATION IDENTIFICATION APP</h1>
-          {this.state.success ? <Success_message/> : null}
+          {this.state.load ? <p>Loading</p> : null}
           {this.state.success ? null :
             <div>
               <h2>Upload a file</h2>
@@ -116,4 +111,4 @@ class Intro extends Component {
     );
   }
 }
-export default Intro;
+export default Upload;

@@ -1,11 +1,23 @@
 import React from 'react';
 import './App.css';
-import Upload from './components/Upload.js'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+
+//Pages
+import Upload from './pages/Upload.js'; 
+import Analyse from './pages/Analyse.js'; 
+import Login from './pages/login_signUp.js'; 
 
 function App() {
   return (
     <div className="App">
-      <Upload></Upload>
+      <Router>
+        <Switch>
+          <Route exact path="/login" component={Login}></Route>
+          <Route exact path="/" component={Upload}></Route>
+          <Route exact path="/analyse" component={Analyse}></Route>
+        </Switch>
+        
+      </Router>
 
     </div>
   );
