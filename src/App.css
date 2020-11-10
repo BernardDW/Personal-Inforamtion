@@ -2,17 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -28,22 +17,53 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.card-deck {
+  margin-top: 5em;
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-bottom: 5em;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2rem;
+}
+
+@media screen and (min-width: 715px) {
+  .card-deck {
+    margin-left: 4em;
+    margin-right: 4em;
   }
-  to {
-    transform: rotate(360deg);
+
+  .btn-danger {
+    position: fixed;
   }
 }
 
-@media all and (min-width: 480px) {
-  .Login {
-    padding: 60px 0;
+@media screen and (min-width: 1300px) {
+  .card-deck {
+    margin-left: 6em;
+    margin-right: 6em;
+    grid-gap: 3rem;
   }
+}
 
-  .Login form {
-    margin: 0 auto;
-    max-width: 320px;
+@media screen and (min-width: 1600px) {
+  .card-deck {
+    margin-left: 12em;
+    margin-right: 12em;
   }
+}
+
+.btn-danger {
+  right: 1em;
+  top: 30%;
+  position: absolute;
+}
+
+#analysisHead {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.form-control{
+  width: 45%
 }

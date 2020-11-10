@@ -2,17 +2,6 @@ import React, { Component } from 'react';
 import axios from "axios";
 import {useHistory} from 'react-router-dom';
 
-// import S3 from 'react-aws-s3';
-
-// const config = {
-//   bucketName: process.env.REACT_APP_BUCKET,
-//   region: process.env.REACT_APP_S3_REGION,
-//   headers: {'Access-Control-Allow-Origin': '*'},
-//   accessKeyId: process.env.REACT_APP_AWSACCESSID,
-//   secretAccessKey: process.env.REACT_APP_AWSSECRETKEY,
-// }
-// const ReactS3Client = new S3(config);
-
 class Upload extends Component {
   constructor(props){
     super(props);
@@ -21,7 +10,10 @@ class Upload extends Component {
       fileExt: "asd"
     };
   }
-  
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
   
   getFileExtension = (filename) => {
     var ext = /^.+\.([^.]+)$/.exec(filename);
