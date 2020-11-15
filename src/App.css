@@ -18,16 +18,16 @@
 }
 
 .card-deck {
-  margin-top: 5em;
+  margin-top: 2em;
   margin-left: 2em;
   margin-right: 2em;
-  margin-bottom: 5em;
+  margin-bottom: 2em;
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 2rem;
 }
 
-@media screen and (min-width: 715px) {
+@media screen and (min-width: 600px) {
   .card-deck {
     margin-left: 4em;
     margin-right: 4em;
@@ -35,6 +35,10 @@
 
   .btn-danger {
     position: fixed;
+  }
+
+  .form{
+    width: 60%;
   }
 }
 
@@ -44,6 +48,10 @@
     margin-right: 6em;
     grid-gap: 3rem;
   }
+  
+  .form-group {
+    width: 60%;
+  }
 }
 
 @media screen and (min-width: 1600px) {
@@ -51,11 +59,21 @@
     margin-left: 12em;
     margin-right: 12em;
   }
+
+  .form-group {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .form{
+    width: 90%;
+  }
 }
 
 .btn-danger {
   right: 1em;
-  top: 30%;
+  top: -10%;
   position: absolute;
 }
 
@@ -65,5 +83,45 @@
 }
 
 .form-control{
-  width: 45%
+  width: 45%;
+  display: flex;
+  flex: auto;
+}
+
+.form{
+  align-content: center;
+  display: inline-block;
+  margin-top: 3.5em;
+  margin-bottom: 1em;
+}
+
+.form-group {
+  margin-bottom: 1em;
+  display: flex;
+  margin-top: 1em;
+  width: 80%;
+}
+
+input {
+  align-content: center;
+  margin-left: 2em;
+}
+
+button {
+  margin-top: 2em;
+}
+
+.upload {
+  background-color: rgb(230, 252, 255);
+  width: 50%;
+  margin-top: 2em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  border: 2px solid rgb(114, 114, 114)!important;
+  border-radius: 16px;
+}
+
+.analyse {
+  width: 80%;
+  display: inline-block;
 }

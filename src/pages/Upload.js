@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import axios from "axios";
-import {useHistory} from 'react-router-dom';
+import {BrowserRouter as Router, Redirect} from 'react-router-dom';
 
 class Upload extends Component {
   constructor(props){
     super(props);
     this.state = {
-      load: false,
+      success: false,
       fileExt: "asd"
     };
   }
@@ -61,11 +61,12 @@ class Upload extends Component {
           'Content-Type': headers
         }
       };
+
       axios.put(url,file,options)
       .then(result => {
         console.log("Response from s3")
+        localStorage.setItem('fileExtension',this.state.fileExt);
         this.setState({success: true});
-        this.handleRouting();
       })
       .catch(error => {
         alert("ERROR " + JSON.stringify(error));
@@ -77,29 +78,29 @@ class Upload extends Component {
     
   };
 
-  handleRouting=()=> {
-    this.props.history.push('/analyse', {
-      fileExtension: this.state.fileExt
-    })
-  } 
   
   render() {
+    if (this.state.success === true) {
+      return <Redirect to='/analyse' />
+    }
     return (
-      <div>
-        <center>
-          <h1>PERSONAL INFORMATION IDENTIFICATION APP</h1>
-          {this.state.load ? <p>Loading</p> : null}
-          {this.state.success ? null :
-            <div>
-              <h2>Upload a file</h2>
-              <input onChange={this.handleChange} ref={(ref) => { this.uploadInput = ref; }} type="file"/>
-              <br/>
-              <button onClick={this.handleUpload}>UPLOAD</button>
-            </div>
-          }
-          
-        </center>
-      </div>
+      <Router>
+        <div>
+          <center>
+            <h1 style={{marginTop: "1em"}}>PERSONAL INFORMATION IDENTIFICATION APP</h1>
+            {this.state.load ? <p>Loading</p> : null}
+            {this.state.success ? null :
+              <div className="upload">
+                <h2>Upload a file</h2>
+                <input onChange={this.handleChange} ref={(ref) => { this.uploadInput = ref; }} type="file" style={{marginTop: "1em"}}/>
+                <br/>
+                <button onClick={this.handleUpload}>UPLOAD</button>
+              </div>
+            }
+            
+          </center>
+        </div>
+      </Router>
     );
   }
 }
