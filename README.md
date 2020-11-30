@@ -1,3 +1,5 @@
+## Personal Information Detection App
+
 The purpose of this data classification app that I made is to provide a South African business to classify all the personal information it keeps.
 
 The app has a login / registering page, a main page where the user can upload a file, and a page that allows the user to add or remove detected information. I decided to follow a “serverless” approach, because of improved utilization, improved security and it is more cost-efficient.
@@ -12,6 +14,12 @@ The technologies used in this project is as follows:
 
 I used Github for source control and Amplify uses the code from this repository.
 
+Supported files:
+- .txt
+- .xlsx
+- .json
+
 
 Link to app: https://master.d1f6btr56owi0u.amplifyapp.com/
+
 Link to lambda code: https://github.com/BernardDW/Personal-info-lambda-backend
